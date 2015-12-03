@@ -38,9 +38,20 @@ public class InputWithMistake {
     }
 
     @Test(expected = CalculationError.class)
-    public void testEmptyBracket() throws CalculationError {
-        calculator.calculate("3+ ()+ 2.4 + + 4");
+    public void testEmptyBrackets() throws CalculationError {
+        calculator.calculate("3+ () + 2.4 + + 4");
     }
+
+    @Test(expected = CalculationError.class)
+    public void testEmptyString() throws CalculationError {
+        calculator.calculate("");
+    }
+
+    @Test(expected = CalculationError.class)
+    public void testOneBracket() throws CalculationError {
+        calculator.calculate("(");
+    }
+
 
 
 }

@@ -20,7 +20,7 @@ public class MathExpressionCalculator extends AbstractFiniteStateMachine<
     final private CalculationMatrix matrix = new CalculationMatrix();
 
     @Override
-    public double calculate(String expression) throws CalculationError {
+    public double calculate(String expression) throws CalculationError{
         return run(new MathExpressionReader(expression), new EvaluationStack());
     }
 
@@ -47,7 +47,7 @@ public class MathExpressionCalculator extends AbstractFiniteStateMachine<
 
     public static void main(String[] args) throws Exception {
         final MathExpressionCalculator calculator = new MathExpressionCalculator();
-        final double result = calculator.calculate("2+3 *4)");
+        final double result = calculator.calculate("2+(3 *4)");
         System.out.println("result = " + result);
     }
 }

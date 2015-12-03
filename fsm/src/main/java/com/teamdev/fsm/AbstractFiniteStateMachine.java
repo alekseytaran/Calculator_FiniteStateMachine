@@ -14,7 +14,7 @@ public abstract class AbstractFiniteStateMachine<
         Error extends Exception,
         Result> {
 
-    public Result run(Input inputContext, Output outputContext) throws Error {
+    public Result run(Input inputContext, Output outputContext) throws Error{
 
         final Matrix matrix = getTransitionMatrix();
 
@@ -33,7 +33,7 @@ public abstract class AbstractFiniteStateMachine<
         return prepareResult(outputContext);
     }
 
-    private State moveForward(State currentState, Input inputContext, Output outputContext) {
+    private State moveForward(State currentState, Input inputContext, Output outputContext) throws Error {
 
         final Set<State> possibleTransitions = getTransitionMatrix().
                 getPossibleTransitions(currentState);

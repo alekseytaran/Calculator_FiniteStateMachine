@@ -21,20 +21,16 @@ public class ClosingBracketParser implements ExpressionParser {
 
         return new EvaluationCommand() {
             @Override
-            public void execute(EvaluationStack outputContext) {
+            public void execute(EvaluationStack outputContext){
 
-                try {
-                    final Deque<Double> operandStack = outputContext.getListOperandStack().pop();
-                    final Deque<BinaryOperator> operatorsStack = outputContext.getListOperatorStack().pop();
-                    while (!operatorsStack.isEmpty()) {
-                        BinaryOperator topOfStackOperator = operatorsStack.pop();
-                        final Double rightOperand = operandStack.pop();
-                        final Double leftOperand = operandStack.pop();
-                        final Double result = topOfStackOperator.execute(leftOperand, rightOperand);
-                        outputContext.getListOperandStack().peek().push(result);
-                    }
-                } catch (NoSuchElementException e) {
-                    throw new RuntimeException("opening bracket missed");
+                final Deque<Double> operandStack = outputContext.getListOperandStack().pop();
+                final Deque<BinaryOperator> operatorsStack = outputContext.getListOperatorStack().pop();
+                while (!operatorsStack.isEmpty()) {
+                    BinaryOperator topOfStackOperator = operatorsStack.pop();
+                    final Double rightOperand = operandStack.pop();
+                    final Double leftOperand = operandStack.pop();
+                    final Double result = topOfStackOperator.execute(leftOperand, rightOperand);
+                    outputContext.getListOperandStack().peek().push(result);
                 }
             }
         };
