@@ -7,14 +7,13 @@ public abstract class AbstractFiniteStateMachine<
 
         Input extends InputContext,
         Output extends OutputContext,
-        State extends Enum,
+        State extends MachineState,
         Command extends StateTransitionCommand<Output>,
         Acceptor extends StateAcceptor<Input, Output, Command>,
         Matrix extends TransitionMatrix<State>,
-        Error extends Exception,
-        Result> {
+        Error extends Exception> {
 
-    public Result run(Input inputContext, Output outputContext) throws Error{
+    public void run(Input inputContext, Output outputContext) throws Error {
 
         final Matrix matrix = getTransitionMatrix();
 
@@ -29,11 +28,10 @@ public abstract class AbstractFiniteStateMachine<
                 break;
             }
         }
-
-        return prepareResult(outputContext);
     }
 
-    private State moveForward(State currentState, Input inputContext, Output outputContext) throws Error {
+    private State moveForward(State currentState,
+                              Input inputContext, Output outputContext) {
 
         final Set<State> possibleTransitions = getTransitionMatrix().
                 getPossibleTransitions(currentState);
@@ -53,8 +51,6 @@ public abstract class AbstractFiniteStateMachine<
 
         return null;
     }
-
-    protected abstract Result prepareResult(Output context);
 
     protected abstract void deadlock(Input context) throws Error;
 

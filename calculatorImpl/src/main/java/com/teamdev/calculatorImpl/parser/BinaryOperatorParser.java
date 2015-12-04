@@ -25,8 +25,8 @@ public class BinaryOperatorParser implements ExpressionParser {
 
                 return new EvaluationCommand() {
                     @Override
-                    public void execute(EvaluationStack outputContext) {
-                        outputContext.pushBinaryOperator(operator);
+                    public void execute(EvaluationContext outputContext) {
+                        outputContext.getEvaluationStack().pushBinaryOperator(operator);
                     }
                 };
             }

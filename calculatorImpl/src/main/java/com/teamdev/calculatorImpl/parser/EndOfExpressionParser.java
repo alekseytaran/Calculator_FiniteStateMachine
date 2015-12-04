@@ -1,7 +1,7 @@
 package com.teamdev.calculatorImpl.parser;
 
 import com.teamdev.calculatorImpl.EvaluationCommand;
-import com.teamdev.calculatorImpl.EvaluationStack;
+import com.teamdev.calculatorImpl.EvaluationContext;
 import com.teamdev.calculatorImpl.ExpressionParser;
 import com.teamdev.calculatorImpl.MathExpressionReader;
 
@@ -16,8 +16,8 @@ public class EndOfExpressionParser implements ExpressionParser {
 
         return new EvaluationCommand() {
             @Override
-            public void execute(EvaluationStack outputContext) {
-                outputContext.popAllOperators();
+            public void execute(EvaluationContext outputContext) {
+                outputContext.getEvaluationStack().popAllOperators();
             }
         };
     }

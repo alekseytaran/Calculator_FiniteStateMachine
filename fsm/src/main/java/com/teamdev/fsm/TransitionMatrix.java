@@ -3,7 +3,7 @@ package com.teamdev.fsm;
 
 import java.util.Set;
 
-public interface TransitionMatrix<State extends Enum> {
+public interface TransitionMatrix<State extends MachineState> {
 
     State getStartState();
 

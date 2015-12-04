@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class InputWithMistake {
+public class InputWithMistakeTest {
     private MathExpressionCalculator calculator;
 
     @Before
@@ -17,22 +17,32 @@ public class InputWithMistake {
         calculator = null;
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = CalculationError.class)
+    public void testEmptyVariable() throws CalculationError {
+        calculator.calculate("var=;");
+    }
+
+    @Test(expected = CalculationError.class)
+    public void testOpenCodeLine() throws CalculationError {
+        calculator.calculate("var=(2+2)");
+    }
+
+    @Test(expected = CalculationError.class)
     public void testOddClosingBracket() throws CalculationError {
         calculator.calculate("2.4 + 2.6)");
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = CalculationError.class)
     public void testOddOpeningBracket() throws CalculationError {
         calculator.calculate("(2.4 + 2.6");
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = CalculationError.class)
     public void testSkipBinaryOperator() throws CalculationError {
         calculator.calculate("(2.4  2.6 + 3");
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = CalculationError.class)
     public void testSkipNumber() throws CalculationError {
         calculator.calculate("(2.4 + + 4");
     }

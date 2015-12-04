@@ -3,16 +3,17 @@ package com.teamdev.calculatorImpl;
 import com.teamdev.calculatorImpl.parser.ExpressionParserFactory;
 import com.teamdev.fsm.AbstractFiniteStateMachine;
 
+import java.util.Map;
+
 public class MathExpressionCalculator extends AbstractFiniteStateMachine<
 
         MathExpressionReader,
-        EvaluationStack,
+        EvaluationContext,
         CalculationState,
         EvaluationCommand,
         ExpressionParser,
         CalculationMatrix,
-        CalculationError,
-        Double>
+        CalculationError>
 
         implements Calculator {
 
@@ -20,19 +21,13 @@ public class MathExpressionCalculator extends AbstractFiniteStateMachine<
     final private CalculationMatrix matrix = new CalculationMatrix();
 
     @Override
-    public double calculate(String expression) throws CalculationError{
-        return run(new MathExpressionReader(expression), new EvaluationStack());
-    }
-
-
-    @Override
-    protected Double prepareResult(EvaluationStack context) {
-        return context.getOperandStack().pop();
+    public void calculate(String expression) throws CalculationError {
+        run(new MathExpressionReader(expression), new EvaluationContext());
     }
 
     @Override
     protected void deadlock(MathExpressionReader context) throws CalculationError {
-        throw new CalculationError("state doesn't exist");
+        throw new CalculationError("", -1);
     }
 
     @Override
@@ -47,7 +42,6 @@ public class MathExpressionCalculator extends AbstractFiniteStateMachine<
 
     public static void main(String[] args) throws Exception {
         final MathExpressionCalculator calculator = new MathExpressionCalculator();
-        final double result = calculator.calculate("2+(3 *4)");
-        System.out.println("result = " + result);
+        calculator.calculate("sum (1,2);");
     }
 }

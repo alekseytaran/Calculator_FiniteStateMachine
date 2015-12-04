@@ -2,10 +2,9 @@ package com.teamdev.calculatorImpl.parser;
 
 import com.teamdev.calculatorImpl.*;
 
-import java.util.Deque;
-import java.util.NoSuchElementException;
-
 public class ClosingBracketParser implements ExpressionParser {
+
+    public static final String CLOSING_BRACKET = ")";
 
     @Override
     public EvaluationCommand accept(MathExpressionReader reader) {
@@ -14,24 +13,16 @@ public class ClosingBracketParser implements ExpressionParser {
             return null;
         }
 
-        final String expression = reader.getRemainingExpression();
+        if (!reader.getRemainingExpression().startsWith(CLOSING_BRACKET)) {
+            return null;
+        }
 
-        final String presentation = ")";
-        reader.movePosition(presentation.length());
+        reader.movePosition(CLOSING_BRACKET.length());
 
         return new EvaluationCommand() {
             @Override
-            public void execute(EvaluationStack outputContext){
-
-                final Deque<Double> operandStack = outputContext.getListOperandStack().pop();
-                final Deque<BinaryOperator> operatorsStack = outputContext.getListOperatorStack().pop();
-                while (!operatorsStack.isEmpty()) {
-                    BinaryOperator topOfStackOperator = operatorsStack.pop();
-                    final Double rightOperand = operandStack.pop();
-                    final Double leftOperand = operandStack.pop();
-                    final Double result = topOfStackOperator.execute(leftOperand, rightOperand);
-                    outputContext.getListOperandStack().peek().push(result);
-                }
+            public void execute(EvaluationContext outputContext) {
+                outputContext.closeCurrentContext();
             }
         };
     }

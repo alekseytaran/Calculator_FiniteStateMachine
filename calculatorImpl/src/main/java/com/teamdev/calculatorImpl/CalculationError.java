@@ -2,20 +2,14 @@ package com.teamdev.calculatorImpl;
 
 public class CalculationError extends Exception {
 
-//    private int errorPosition;
-//
-//    public CalculationError(String message, int errorPosition) {
-//        super(message);
-//        this.errorPosition = errorPosition;
-//    }
-//
-//    public int getErrorPosition() {
-//        return errorPosition;
-//    }
+    private int errorPosition;
 
-    public CalculationError(String message) {
+    public CalculationError(String message, int errorPosition) {
         super(message);
+        this.errorPosition = errorPosition;
     }
 
-
+    public int getErrorPosition() {
+        return errorPosition;
+    }
 }

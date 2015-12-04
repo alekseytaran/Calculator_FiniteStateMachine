@@ -15,9 +15,17 @@ public class ExpressionParserFactory {
 
                 put(NUMBER, new NumberParser());
                 put(BINARY_OPERATOR, new BinaryOperatorParser());
-                put(FINISH, new EndOfExpressionParser());
                 put(OPENING_BRACKET, new OpeningBracketParser());
                 put(CLOSING_BRACKET, new ClosingBracketParser());
+                put(FUNCTION, new FunctionParser());
+                put(ARGUMENT_DELIMITER, new ArgumentDelimiterParser());
+                put(END_OF_LINE, new EndOfLineParser());
+
+                put(READ_VARIABLE, new ReadVariableParser());
+                put(WRITE_VARIABLE, new WriteVariableParser());
+                put(ASSIGN_VALUE, new AssignValueParser());
+
+                put(FINISH, new EndOfExpressionParser());
             }};
 
     public ExpressionParser getParser(CalculationState state) {

@@ -2,8 +2,8 @@ package com.teamdev.calculatorImpl;
 
 import com.teamdev.fsm.StateTransitionCommand;
 
-public interface EvaluationCommand extends StateTransitionCommand<EvaluationStack> {
+public interface EvaluationCommand extends StateTransitionCommand<EvaluationContext> {
 
     @Override
-    void execute(EvaluationStack outputContext);
+    void execute(EvaluationContext outputContext);
 }

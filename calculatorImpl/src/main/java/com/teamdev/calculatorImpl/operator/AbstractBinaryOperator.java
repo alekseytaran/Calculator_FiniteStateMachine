@@ -7,7 +7,7 @@ public abstract class AbstractBinaryOperator implements BinaryOperator {
     enum Priority {
         LOW, // +, -
         MEDIUM, // *, /
-        HIGH, // ^
+        HIGH // ^
     }
 
     private Priority priority;
@@ -18,6 +18,7 @@ public abstract class AbstractBinaryOperator implements BinaryOperator {
 
     @Override
     public int compareTo(BinaryOperator operator) {
-        return priority.compareTo(((AbstractBinaryOperator) operator).priority);
+        return priority.compareTo(
+                ((AbstractBinaryOperator) operator).priority);
     }
 }

@@ -4,7 +4,7 @@ import com.teamdev.fsm.StateAcceptor;
 
 public interface ExpressionParser extends StateAcceptor<
         MathExpressionReader,
-        EvaluationStack,
+        EvaluationContext,
         EvaluationCommand> {
 
     @Override

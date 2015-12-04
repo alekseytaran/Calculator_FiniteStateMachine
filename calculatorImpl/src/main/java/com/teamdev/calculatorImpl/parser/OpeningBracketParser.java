@@ -2,10 +2,9 @@ package com.teamdev.calculatorImpl.parser;
 
 import com.teamdev.calculatorImpl.*;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-
 public class OpeningBracketParser implements ExpressionParser {
+
+    public static final String OPENING_BRACKET = "(";
 
     @Override
     public EvaluationCommand accept(MathExpressionReader reader) {
@@ -14,18 +13,16 @@ public class OpeningBracketParser implements ExpressionParser {
             return null;
         }
 
-        reader.getRemainingExpression();
-        reader.getPosition();
+        if (!reader.getRemainingExpression().startsWith(OPENING_BRACKET)) {
+            return null;
+        }
 
-        reader.movePosition("(".length());
+        reader.movePosition(OPENING_BRACKET.length());
 
         return new EvaluationCommand() {
             @Override
-            public void execute(EvaluationStack outputContext) {
-                Deque<Double> operandStack = new ArrayDeque<>();
-                Deque<BinaryOperator> operatorStack = new ArrayDeque<>();
-                outputContext.getListOperandStack().push(operandStack);
-                outputContext.getListOperatorStack().push(operatorStack);
+            public void execute(EvaluationContext outputContext) {
+                outputContext.enterNewContext();
             }
         };
     }

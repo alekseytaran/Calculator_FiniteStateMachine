@@ -1,9 +1,6 @@
 package com.teamdev.calculatorImpl.parser;
 
-import com.teamdev.calculatorImpl.EvaluationCommand;
-import com.teamdev.calculatorImpl.EvaluationStack;
-import com.teamdev.calculatorImpl.ExpressionParser;
-import com.teamdev.calculatorImpl.MathExpressionReader;
+import com.teamdev.calculatorImpl.*;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -35,8 +32,8 @@ public class NumberParser implements ExpressionParser {
 
         return new EvaluationCommand() {
             @Override
-            public void execute(EvaluationStack outputContext) {
-                outputContext.getListOperandStack().peek().push(result.doubleValue());
+            public void execute(EvaluationContext outputContext) {
+                outputContext.getEvaluationStack().getOperandStack().push(result.doubleValue());
             }
         };
     }
