@@ -9,7 +9,7 @@ public abstract class AbstractFiniteStateMachine<
         Output extends OutputContext,
         State extends MachineState,
         Command extends StateTransitionCommand<Output>,
-        Acceptor extends StateAcceptor<Input, Output, Command>,
+        Acceptor extends StateAcceptor<Input, Output, Command, Error>,
         Matrix extends TransitionMatrix<State>,
         Error extends Exception> {
 
@@ -31,7 +31,7 @@ public abstract class AbstractFiniteStateMachine<
     }
 
     private State moveForward(State currentState,
-                              Input inputContext, Output outputContext) {
+                              Input inputContext, Output outputContext) throws Error {
 
         final Set<State> possibleTransitions = getTransitionMatrix().
                 getPossibleTransitions(currentState);

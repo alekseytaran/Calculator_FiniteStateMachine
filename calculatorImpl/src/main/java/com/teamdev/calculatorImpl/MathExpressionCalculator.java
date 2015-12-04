@@ -27,7 +27,7 @@ public class MathExpressionCalculator extends AbstractFiniteStateMachine<
 
     @Override
     protected void deadlock(MathExpressionReader context) throws CalculationError {
-        throw new CalculationError("", -1);
+        throw new CalculationError("Necessary state wasn't found", context.getPosition());
     }
 
     @Override
@@ -42,6 +42,6 @@ public class MathExpressionCalculator extends AbstractFiniteStateMachine<
 
     public static void main(String[] args) throws Exception {
         final MathExpressionCalculator calculator = new MathExpressionCalculator();
-        calculator.calculate("sum (1,2);");
+        calculator.calculate("var=(2+2");
     }
 }

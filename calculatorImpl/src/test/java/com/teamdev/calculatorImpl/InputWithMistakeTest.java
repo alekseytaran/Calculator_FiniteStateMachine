@@ -28,6 +28,11 @@ public class InputWithMistakeTest {
     }
 
     @Test(expected = CalculationError.class)
+    public void testTwoAssignState() throws CalculationError {
+        calculator.calculate("var==(2+3);");
+    }
+
+    @Test(expected = CalculationError.class)
     public void testOddClosingBracket() throws CalculationError {
         calculator.calculate("2.4 + 2.6)");
     }

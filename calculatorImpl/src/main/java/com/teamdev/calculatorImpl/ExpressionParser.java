@@ -5,8 +5,9 @@ import com.teamdev.fsm.StateAcceptor;
 public interface ExpressionParser extends StateAcceptor<
         MathExpressionReader,
         EvaluationContext,
-        EvaluationCommand> {
+        EvaluationCommand,
+        CalculationError> {
 
     @Override
-    EvaluationCommand accept(MathExpressionReader reader);
+    EvaluationCommand accept(MathExpressionReader reader) throws CalculationError;
 }
