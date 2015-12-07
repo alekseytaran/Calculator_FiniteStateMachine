@@ -4,69 +4,114 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.TestCase.fail;
+
 public class InputWithMistakeTest {
     private MathExpressionCalculator calculator;
+    private EvaluationContext context;
 
     @Before
     public void beforeTest() {
         calculator = new MathExpressionCalculator();
+        context = new EvaluationContext();
     }
 
     @After
     public void destroyInstances() {
         calculator = null;
+        context = null;
     }
 
-    @Test(expected = CalculationError.class)
+    public void checkMessageAndPositionError(String expression, String errorMessage, int position) {
+        try {
+            MathExpressionReader expressionReader = new MathExpressionReader(expression);
+            calculator.run(expressionReader, context);
+
+            fail("error wasn't appeared");
+        } catch (CalculationError e) {
+
+            assertEquals(errorMessage, e.getMessage());
+            assertEquals("Position doesn't correct", position, e.getErrorPosition()+1);
+        }
+    }
+
+    @Test
     public void testEmptyVariable() throws CalculationError {
-        calculator.calculate("var=;");
+        checkMessageAndPositionError("var=;", "Necessary state wasn't found", 5);
+
     }
 
-    @Test(expected = CalculationError.class)
+    @Test
     public void testOpenCodeLine() throws CalculationError {
-        calculator.calculate("var=(2+2)");
+        checkMessageAndPositionError("var=(2+2)", "Necessary state wasn't found", 10);
+
     }
 
-    @Test(expected = CalculationError.class)
+    @Test
     public void testTwoAssignState() throws CalculationError {
-        calculator.calculate("var==(2+3);");
+        checkMessageAndPositionError("var==(2+3);", "Necessary state wasn't found", 5);
     }
 
-    @Test(expected = CalculationError.class)
+    @Test
     public void testOddClosingBracket() throws CalculationError {
-        calculator.calculate("2.4 + 2.6)");
+        checkMessageAndPositionError("2.4 + 2.6)", "Necessary state wasn't found", 1);
     }
 
-    @Test(expected = CalculationError.class)
+    @Test
     public void testOddOpeningBracket() throws CalculationError {
-        calculator.calculate("(2.4 + 2.6");
+        checkMessageAndPositionError("(2.4 + 2.6", "Necessary state wasn't found", 11);
     }
 
-    @Test(expected = CalculationError.class)
+    @Test
     public void testSkipBinaryOperator() throws CalculationError {
-        calculator.calculate("(2.4  2.6 + 3");
+        checkMessageAndPositionError("(2.4  2.6", "Necessary state wasn't found", 7);
     }
 
-    @Test(expected = CalculationError.class)
+    @Test
     public void testSkipNumber() throws CalculationError {
-        calculator.calculate("(2.4 + + 4");
+        checkMessageAndPositionError("(2.4 + + 4", "Necessary state wasn't found", 8);
     }
 
-    @Test(expected = CalculationError.class)
+    @Test
     public void testEmptyBrackets() throws CalculationError {
-        calculator.calculate("3+ () + 2.4 + + 4");
+        checkMessageAndPositionError("()", "Necessary state wasn't found", 2);
     }
 
-    @Test(expected = CalculationError.class)
+    @Test
     public void testEmptyString() throws CalculationError {
-        calculator.calculate("");
+        checkMessageAndPositionError("", "Necessary state wasn't found", 1);
     }
 
-    @Test(expected = CalculationError.class)
-    public void testOneBracket() throws CalculationError {
-        calculator.calculate("(");
+    @Test
+    public void testOneOpenBracket() throws CalculationError {
+        checkMessageAndPositionError("(", "Necessary state wasn't found", 2);
     }
 
+    @Test
+    public void testOneCloseBracket() throws CalculationError {
+        checkMessageAndPositionError(")", "Necessary state wasn't found", 1);
+    }
+
+    @Test
+    public void testMissingBinaryOperator() {
+        checkMessageAndPositionError("var=(2 2);", "Necessary state wasn't found", 8);
+    }
+
+    @Test
+    public void testMissingNumber() {
+        checkMessageAndPositionError("var=(+ 2);", "Necessary state wasn't found", 6);
+    }
+
+    @Test
+    public void testMissingAssignValue() {
+        checkMessageAndPositionError("var(2+ 2);", "Necessary state wasn't found", 4);
+    }
+
+    @Test
+    public void testNotCloseCodeLine() {
+        checkMessageAndPositionError("var=(2+ 2)", "Necessary state wasn't found", 11);
+    }
 
 
 }
