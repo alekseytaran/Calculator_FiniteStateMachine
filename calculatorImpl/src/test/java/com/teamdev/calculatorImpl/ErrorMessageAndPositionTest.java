@@ -61,4 +61,18 @@ public class ErrorMessageAndPositionTest {
             assertEquals("Position doesn't correct", 4, e.getErrorPosition()+1);
         }
     }
+
+    @Test
+    public void testNotCloseCodeLine() {
+
+        try {
+            MathExpressionReader expressionReader = new MathExpressionReader("var=(2+ 2)");
+            calculator.run(expressionReader, context);
+        } catch (CalculationError e) {
+
+            assertEquals("Necessary state wasn't found", e.getMessage());
+            assertEquals("Position doesn't correct", 11, e.getErrorPosition()+1);
+        }
+    }
 }
+
